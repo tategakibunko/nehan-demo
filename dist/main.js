@@ -947,7 +947,7 @@
 
 	  return {
 	    getHtml : function(name){
-	      return __get("/static/nehan-demo/" + name + ".html");
+	      return __get(name + ".html");
 	    }
 	  };
 	})();
