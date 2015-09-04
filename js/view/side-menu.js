@@ -6,10 +6,8 @@ module.exports = (function(){
   return {
     renderItem : function(ctx, title, name){
       var location = ctx.state.location || Config.defaultLocation;
-      return h("a.item", {
-	style:{
-	  fontWeight:(location === name)? "bold" : "normal"
-	},
+      var markup = (location === name)? "a.active.item" : "a.item";
+      return h(markup, {
 	href:"#"+name
       }, title);
     },

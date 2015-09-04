@@ -8,3 +8,7 @@ header {
 .nehan-body {
   background: pink;
   margin-bottom: 1em; }
+
+a.active.item {
+  font-weight: bold;
+  color: #cf423a !important; }
