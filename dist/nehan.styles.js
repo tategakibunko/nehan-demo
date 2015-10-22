@@ -40,6 +40,7 @@ Nehan.setStyles({
 	// or set (name,value) directly.
 	ctx.setCssAttr("color", "yellow");
 	ctx.setCssAttr("background", "blue");
+	return null;
       }
     }
   },
