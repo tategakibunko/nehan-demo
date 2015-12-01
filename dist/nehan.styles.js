@@ -111,6 +111,7 @@ Nehan.setStyles({
     }
   },
   "circular":{
+    "box-sizing":"content-box",
     "display":"block",
     "measure":"280px",
     "extent":"280px",
@@ -128,7 +129,7 @@ Nehan.setStyles({
     "line-height":"1em",
     "color":function(ctx){
       var child_index = ctx.getChildIndex();
-      var parent_style = ctx.getParentStyleContext();
+      var parent_style = ctx.getParentStyle();
       var active = parseInt(parent_style.markup.getAttr("active", 1), 10);
       return (child_index + 1 === active)? "red" : "black";
     },
@@ -136,7 +137,7 @@ Nehan.setStyles({
       var index = ctx.getChildIndex();
       var is_vert = ctx.isTextVertical();
       var child_count = ctx.getParentChildCount();
-      var font_size = ctx.getStyleContext().getFontSize();
+      var font_size = ctx.getStyle().getFontSize();
       var center_pos = Math.floor((ctx.getParentBox().getContentExtent() - font_size) / 2);
       var unit_degree = Math.floor(360 / child_count);
       var start_degree = is_vert? 30 : 120;
@@ -180,7 +181,7 @@ Nehan.setStyles({
     "line-height":"1em",
     "padding":{start:"0.5em"},
     color:function(ctx){
-      var parent_style = ctx.getParentStyleContext();
+      var parent_style = ctx.getParentStyle();
       var child_index = ctx.getChildIndex();
       var child_hour = (child_index + 1) % 12;
       var cur_hour = new Date().getHours() % 12;
@@ -188,10 +189,10 @@ Nehan.setStyles({
     },
     onblock:function(ctx){
       var is_vert = ctx.isTextVertical();
-      var parent_style = ctx.box.style.parent;
+      var parent_style = ctx.box.context.style.parent;
       var child_index = ctx.getChildIndex();
-      var child_count = ctx.getParentStyleContext().getChildCount();
-      var line_height = ctx.getStyleContext().getFontSize(); // line-height:"1em"
+      var child_count = ctx.getParentStyle().getChildCount();
+      var line_height = ctx.box.context.style.getFontSize(); // line-height:"1em"
       var parent_extent = ctx.getParentBox().getContentExtent();
       var trans_extent = Math.floor((parent_extent - line_height) / 2);
       var unit_degree = Math.floor(360 / child_count);
