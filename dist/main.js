@@ -843,7 +843,7 @@
 /***/ function(module, exports) {
 
 	module.exports = {
-	  defaultLocation:"selector",
+	  defaultLocation:"pseudo-element",
 	  leftCol:2,
 	  pageCol:7
 	};
@@ -865,9 +865,10 @@
 	  //{title:"tip-test", name:"tip-test"},
 	  //{title:"speak-test", name:"speak-test"},
 	  //{title:"gravatar-test", name:"gracatar-test"},
-	  {title:"selector test", name:"selector"},
-	  {title:"pseudo-class", name:"pseudo-class"},
 	  {title:"pseudo-element", name:"pseudo-element"},
+	  {title:"pseudo-class", name:"pseudo-class"},
+	  {title:"border-radius", name:"border-radius"},
+	  {title:"selector test", name:"selector"},
 	  {title:"flip-flow", name:"flip-flow"},
 	  {title:"circular", name:"circular"},
 	  {title:"animated clock", name:"clock"},

@@ -1,5 +1,5 @@
 module.exports = {
-  defaultLocation:"selector",
+  defaultLocation:"pseudo-element",
   leftCol:2,
   pageCol:7
 };
