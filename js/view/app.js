@@ -9,6 +9,7 @@ module.exports = {
 	h(".ui.grid", [
 	  h(".two.wide.column", SideMenu.render(ctx)),
 	  h(".fourteen.wide.column", [
+	    h(".ui.info.message", "Change window size, and it reflows!"),
 	    h(".ui.form", h(".field", h("textarea", ctx.state.mainText))),
 	    h(".ui.hidden.divider"),
 	    h(".ui.two.column.grid", [

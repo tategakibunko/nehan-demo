@@ -98,7 +98,6 @@ Nehan.setStyles({
     content:"this is inserted by after"
   },
   ".first-line-larger::first-line":{
-    "display":"block",
     "font-size":"1.6em"
   },
   ".my-callback":{
