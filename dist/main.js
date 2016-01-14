@@ -31132,11 +31132,13 @@
 	  function Pages(ctx, flow){
 	    this.width = ctx.state.pageWidth - 40;
 	    this.height = this.width;
-	    this.$pages = this._createPages(ctx, flow);
+	    this.element = document.createElement("div");
+	    this.document = this._createDocument(ctx, flow);
 	  }
 
-	  Pages.prototype._createPages = function(ctx, flow){
-	    var pe = Nehan.createPagedElement().setStyles({
+	  Pages.prototype._createDocument = function(ctx, flow){
+	    var doc = new Nehan.Document();
+	    doc.setStyles({
 	      body:{
 		flow:flow,
 		width:this.width,
@@ -31145,18 +31147,17 @@
 	      }
 	    });
 
-	    var $pages = pe.getElement();
-	    pe.setContent(ctx.state.mainText, {
-	      onProgress : function(tree, stream){
-		var page = stream.getPage(tree.pageNo);
-		$pages.appendChild(page.element);
-	      }
+	    doc.setContent(ctx.state.mainText);
+	    doc.render({
+	      onPage : function(page, ctx){
+		this.element.appendChild(page.element);
+	      }.bind(this)
 	    });
-	    return $pages;
+	    return doc;
 	  };
 
 	  Pages.prototype.getElement = function(){
-	    return this.$pages;
+	    return this.element;
 	  };
 
 	  return Pages;
