@@ -67,11 +67,6 @@
 
 	  Nehan.Config.preloadMarkups = ["img", "math"];
 
-	  // initialize maxjax
-	  MathJax.Hub.Config({
-	    tex2jax: {inlineMath: [["$","$"],["\\(","\\)"]]}
-	  });
-
 	  Inga.define({
 	    domRoot:document.querySelector("#app"),
 	    dataSource:data_source,
@@ -884,7 +879,7 @@
 	  {title:"flip-flow", name:"flip-flow"},
 	  {title:"circular", name:"circular"},
 	  {title:"animated clock", name:"clock"},
-	  //{title:"mathjax", name:"mathjax"},
+	  {title:"mathjax", name:"mathjax"},
 	  {title:"table", name:"table"},
 	  {title:"table-auto", name:"table-auto"},
 	  {title:"float", name:"float"},
@@ -31153,7 +31148,7 @@
 	    createDemo : function(flow, page_size){
 	      this.emitUpdater(function(state){
 		var element = state.getElement(flow);
-		element.innerHTML = "";
+		element.innerHTML = "<img src='nl.gif'>";
 		new Nehan.Document()
 		  .setStyle("body", {
 		    flow:flow,
@@ -31164,6 +31159,9 @@
 		  .setContent(state.mainText)
 		  .render({
 		    onPage:function(page, ctx){
+		      if(page.pageNo === 0){
+			element.innerHTML = "";
+		      }
 		      element.appendChild(page.element);
 		    }
 		  });

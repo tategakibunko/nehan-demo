@@ -21,11 +21,6 @@ $(function(){
 
   Nehan.Config.preloadMarkups = ["img", "math"];
 
-  // initialize maxjax
-  MathJax.Hub.Config({
-    tex2jax: {inlineMath: [["$","$"],["\\(","\\)"]]}
-  });
-
   Inga.define({
     domRoot:document.querySelector("#app"),
     dataSource:data_source,

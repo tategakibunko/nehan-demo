@@ -17,7 +17,7 @@ module.exports = [
   {title:"flip-flow", name:"flip-flow"},
   {title:"circular", name:"circular"},
   {title:"animated clock", name:"clock"},
-  //{title:"mathjax", name:"mathjax"},
+  {title:"mathjax", name:"mathjax"},
   {title:"table", name:"table"},
   {title:"table-auto", name:"table-auto"},
   {title:"float", name:"float"},
