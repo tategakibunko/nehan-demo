@@ -1,5 +1,4 @@
 var _ = require("lodash");
-var Pages = require("./pages");
 
 module.exports = (function(){
   function State(initial_state){
@@ -9,11 +8,17 @@ module.exports = (function(){
   }
 
   State.prototype = {
-    createPages : function(ctx){
-      if(ctx.state.mainText){
-	this.pages.vert = new Pages(ctx, "tb-rl");
-	this.pages.hori = new Pages(ctx, "lr-tb");
-      }
+    getElement : function(flow){
+      return this.elements[flow];
+    },
+    getBodyStyle : function(flow){
+      var page_size = this.pageWidth - 40;
+      return {
+	flow:flow,
+	width:page_size,
+	height:page_size,
+	fontSize:16
+      };
     }
   };
 

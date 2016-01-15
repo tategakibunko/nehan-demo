@@ -1,6 +1,6 @@
 Nehan.setStyles({
-  "p":{
-    "background-color":"orange"
+  p:{
+    backgroundColor:"orange"
   },
   ".test-pseudo li:first-child":{
     "color":"green"

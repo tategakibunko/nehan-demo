@@ -8,12 +8,22 @@ $(function(){
   var data_source = new Inga.ActionStateStream({
     initialState:new State({
       mainText:"",
-      pages:{vert:null, hori:null}
+      elements:{
+	"tb-rl":document.createElement("div"),
+	"lr-tb":document.createElement("div")
+      }
     }),
     plugins:[
       {module:require("inga/plugins/hash-location"), options:{combine:true}}
     ],
     actions:Actions
+  });
+
+  Nehan.Config.preloadMarkups = ["img", "math"];
+
+  // initialize maxjax
+  MathJax.Hub.Config({
+    tex2jax: {inlineMath: [["$","$"],["\\(","\\)"]]}
   });
 
   Inga.define({

@@ -9,11 +9,33 @@ module.exports = (function(){
   };
 
   return {
+    createDemo : function(flow){
+      this.emitUpdater(function(state){
+	var element = state.getElement(flow);
+	element.innerHTML = "";
+	new Nehan.Document()
+	  .setStyle("body", state.getBodyStyle(flow))
+	  .setContent(state.mainText)
+	  .render({
+	    onPreloadProgress:function(status){
+	      //console.log(status);
+	      console.log("extent:%o", status.res.getAttr("extent"));
+	    },
+	    onPage:function(page, ctx){
+	      element.appendChild(page.element);
+	    }
+	  });
+      });
+    },
+    updateDemo : function(){
+      this.createDemo("tb-rl");
+      this.createDemo("lr-tb");
+    },
     emitHtml : function(name){
       Api.getHtml(name).then(function(html){
 	this.emitUpdater(function(state){
 	  state.mainText = html;
-	  state.createPages(this.createContext(state));
+	  this.updateDemo();
 	}.bind(this));
       }.bind(this));
     },
@@ -36,7 +58,7 @@ module.exports = (function(){
       page_width$.subscribe(function(page_width){
 	this.emitUpdater(function(state){
 	  state.pageWidth = page_width;
-	  state.createPages(this.createContext(state));
+	  this.updateDemo();
 	}.bind(this));
       }.bind(this));
 

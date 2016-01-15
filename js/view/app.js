@@ -14,8 +14,8 @@ module.exports = {
 	    h(".ui.hidden.divider"),
 	    h(".ui.two.column.grid", [
 	      h(".row", [
-		h(".column", Pages.render(ctx, ctx.state.pages.vert)),
-		h(".column", Pages.render(ctx, ctx.state.pages.hori))
+		h(".column", Pages.render(ctx, "tb-rl")),
+		h(".column", Pages.render(ctx, "lr-tb"))
 	      ])
 	    ])
 	  ])

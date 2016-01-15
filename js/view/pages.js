@@ -2,11 +2,11 @@ var h = require("virtual-dom/h");
 
 module.exports = (function(){
   return {
-    render : function(ctx, pages){
+    render : function(ctx, flow){
       return h(".pages", {
 	type:"Widget",
 	init:function(){
-	  return pages? pages.getElement() : document.createElement("div");
+	  return ctx.state.elements[flow];
 	}
       });
     }

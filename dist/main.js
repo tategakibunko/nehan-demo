@@ -46,7 +46,7 @@
 
 	var Inga = __webpack_require__(30);
 	var State = __webpack_require__(66);
-	var Actions = __webpack_require__(69);
+	var Actions = __webpack_require__(68);
 	var VirtualView = __webpack_require__(1);
 	var Api = __webpack_require__(26);
 
@@ -54,12 +54,22 @@
 	  var data_source = new Inga.ActionStateStream({
 	    initialState:new State({
 	      mainText:"",
-	      pages:{vert:null, hori:null}
+	      elements:{
+		"tb-rl":document.createElement("div"),
+		"lr-tb":document.createElement("div")
+	      }
 	    }),
 	    plugins:[
-	      {module:__webpack_require__(70), options:{combine:true}}
+	      {module:__webpack_require__(69), options:{combine:true}}
 	    ],
 	    actions:Actions
+	  });
+
+	  Nehan.Config.preloadMarkups = ["img", "math"];
+
+	  // initialize maxjax
+	  MathJax.Hub.Config({
+	    tex2jax: {inlineMath: [["$","$"],["\\(","\\)"]]}
 	  });
 
 	  Inga.define({
@@ -162,8 +172,8 @@
 		    h(".ui.hidden.divider"),
 		    h(".ui.two.column.grid", [
 		      h(".row", [
-			h(".column", Pages.render(ctx, ctx.state.pages.vert)),
-			h(".column", Pages.render(ctx, ctx.state.pages.hori))
+			h(".column", Pages.render(ctx, "tb-rl")),
+			h(".column", Pages.render(ctx, "lr-tb"))
 		      ])
 		    ])
 		  ])
@@ -873,12 +883,13 @@
 	  {title:"flip-flow", name:"flip-flow"},
 	  {title:"circular", name:"circular"},
 	  {title:"animated clock", name:"clock"},
+	  //{title:"mathjax", name:"mathjax"},
 	  {title:"table", name:"table"},
 	  {title:"table-auto", name:"table-auto"},
 	  {title:"float", name:"float"},
-	  {title:"float-clear-start", name:"float-clear-start"},
-	  {title:"float-clear-end", name:"float-clear-end"},
-	  {title:"float-clear-both", name:"float-clear-both"},
+	  //{title:"float-clear-start", name:"float-clear-start"},
+	  //{title:"float-clear-end", name:"float-clear-end"},
+	  //{title:"float-clear-both", name:"float-clear-both"},
 	  {title:"baseline", name:"baseline"},
 	  {title:"list", name:"list"},
 	  {title:"text-align", name:"text-align"},
@@ -908,11 +919,11 @@
 
 	module.exports = (function(){
 	  return {
-	    render : function(ctx, pages){
+	    render : function(ctx, flow){
 	      return h(".pages", {
 		type:"Widget",
 		init:function(){
-		  return pages? pages.getElement() : document.createElement("div");
+		  return ctx.state.elements[flow];
 		}
 	      });
 	    }
@@ -18744,7 +18755,6 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	var _ = __webpack_require__(67);
-	var Pages = __webpack_require__(68);
 
 	module.exports = (function(){
 	  function State(initial_state){
@@ -18754,11 +18764,17 @@
 	  }
 
 	  State.prototype = {
-	    createPages : function(ctx){
-	      if(ctx.state.mainText){
-		this.pages.vert = new Pages(ctx, "tb-rl");
-		this.pages.hori = new Pages(ctx, "lr-tb");
-	      }
+	    getElement : function(flow){
+	      return this.elements[flow];
+	    },
+	    getBodyStyle : function(flow){
+	      var page_size = this.pageWidth - 40;
+	      return {
+		flow:flow,
+		width:page_size,
+		height:page_size,
+		fontSize:16
+	      };
 	    }
 	  };
 
@@ -31126,46 +31142,6 @@
 
 /***/ },
 /* 68 */
-/***/ function(module, exports) {
-
-	module.exports = (function(){
-	  function Pages(ctx, flow){
-	    this.width = ctx.state.pageWidth - 40;
-	    this.height = this.width;
-	    this.element = document.createElement("div");
-	    this.document = this._createDocument(ctx, flow);
-	  }
-
-	  Pages.prototype._createDocument = function(ctx, flow){
-	    var doc = new Nehan.Document();
-	    doc.setStyles({
-	      body:{
-		flow:flow,
-		width:this.width,
-		height:this.height,
-		fontSize:16
-	      }
-	    });
-
-	    doc.setContent(ctx.state.mainText);
-	    doc.render({
-	      onPage : function(page, ctx){
-		this.element.appendChild(page.element);
-	      }.bind(this)
-	    });
-	    return doc;
-	  };
-
-	  Pages.prototype.getElement = function(){
-	    return this.element;
-	  };
-
-	  return Pages;
-	})();
-
-
-/***/ },
-/* 69 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var Rx = __webpack_require__(32);
@@ -31179,11 +31155,33 @@
 	  };
 
 	  return {
+	    createDemo : function(flow){
+	      this.emitUpdater(function(state){
+		var element = state.getElement(flow);
+		element.innerHTML = "";
+		new Nehan.Document()
+		  .setStyle("body", state.getBodyStyle(flow))
+		  .setContent(state.mainText)
+		  .render({
+		    onPreloadProgress:function(status){
+		      //console.log(status);
+		      console.log("extent:%o", status.res.getAttr("extent"));
+		    },
+		    onPage:function(page, ctx){
+		      element.appendChild(page.element);
+		    }
+		  });
+	      });
+	    },
+	    updateDemo : function(){
+	      this.createDemo("tb-rl");
+	      this.createDemo("lr-tb");
+	    },
 	    emitHtml : function(name){
 	      Api.getHtml(name).then(function(html){
 		this.emitUpdater(function(state){
 		  state.mainText = html;
-		  state.createPages(this.createContext(state));
+		  this.updateDemo();
 		}.bind(this));
 	      }.bind(this));
 	    },
@@ -31206,7 +31204,7 @@
 	      page_width$.subscribe(function(page_width){
 		this.emitUpdater(function(state){
 		  state.pageWidth = page_width;
-		  state.createPages(this.createContext(state));
+		  this.updateDemo();
 		}.bind(this));
 	      }.bind(this));
 
@@ -31220,7 +31218,7 @@
 
 
 /***/ },
-/* 70 */
+/* 69 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
