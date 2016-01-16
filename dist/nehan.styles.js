@@ -238,5 +238,11 @@ Nehan.setStyles({
   },
   math:{
     display:"block"
+  },
+  ".test-lst-inside ul":{
+    "list-style-position":"inside"
+  },
+  ".test-lst-inside ol":{
+    "list-style-position":"inside"
   }
 });
