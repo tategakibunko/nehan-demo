@@ -22,6 +22,9 @@ module.exports = (function(){
 	  })
 	  .setContent(state.mainText)
 	  .render({
+	    onPreloadProgress : function(status){
+	      //console.log("preload:%o", status);
+	    },
 	    onPage:function(page, ctx){
 	      element.appendChild(page.element);
 	    }
