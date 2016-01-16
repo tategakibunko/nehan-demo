@@ -31148,7 +31148,7 @@
 	    createDemo : function(flow, page_size){
 	      this.emitUpdater(function(state){
 		var element = state.getElement(flow);
-		element.innerHTML = "<img src='nl.gif'>";
+		element.innerHTML = "";
 		new Nehan.Document()
 		  .setStyle("body", {
 		    flow:flow,
@@ -31159,9 +31159,6 @@
 		  .setContent(state.mainText)
 		  .render({
 		    onPage:function(page, ctx){
-		      if(page.pageNo === 0){
-			element.innerHTML = "";
-		      }
 		      element.appendChild(page.element);
 		    }
 		  });

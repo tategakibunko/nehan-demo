@@ -235,5 +235,8 @@ Nehan.setStyles({
   ".radius5":{
     "border-radius":"50%",
     "background-color":"skyblue"
+  },
+  math:{
+    display:"block"
   }
 });
