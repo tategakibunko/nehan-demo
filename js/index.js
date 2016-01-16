@@ -19,8 +19,6 @@ $(function(){
     actions:Actions
   });
 
-  Nehan.Config.preloadMarkups = ["img", "math"];
-
   Inga.define({
     domRoot:document.querySelector("#app"),
     dataSource:data_source,
