@@ -5,7 +5,8 @@ var Config = require("./config");
 
 module.exports = (function(){
   var __get_page_width = function(){
-    return Math.floor(Config.pageCol * window.innerWidth / 16) - 30;
+    var page_col = (screen.width > 600)? Config.pageCol : Config.pageCol * 2;
+    return Math.floor(page_col * window.innerWidth / 16) - 30;
   };
 
   return {

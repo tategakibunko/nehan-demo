@@ -154,22 +154,36 @@
 	var Pages = __webpack_require__(25);
 
 	module.exports = {
+	  renderFull : function(ctx){
+	    return h(".ui.two.column.grid", [
+	      h(".row", [
+		h(".column", Pages.render(ctx, "tb-rl")),
+		h(".column", Pages.render(ctx, "lr-tb"))
+	      ])
+	    ]);
+	  },
+	  renderCompact : function(ctx){
+	    return h(".row", [
+	      h("h3", "vertical"),
+	      h(".vert", Pages.render(ctx, "tb-rl")),
+	      h("h3", "horizontal"),
+	      h(".hori", Pages.render(ctx, "lr-tb"))
+	    ]);
+	  },
+	  renderMain : function(ctx){
+	    return h(".fourteen.wide.column", [
+	      h(".ui.info.message", "Change window size, and it reflows!"),
+	      h(".ui.form", h(".field", h("textarea", ctx.state.mainText))),
+	      h(".ui.hidden.divider"),
+	      ((screen.width > 600)? this.renderFull(ctx) : this.renderCompact(ctx))
+	    ]);
+	  },
 	  render : function(ctx){
 	    try {
 	      return h(".app", [
 		h(".ui.grid", [
 		  h(".two.wide.column", SideMenu.render(ctx)),
-		  h(".fourteen.wide.column", [
-		    h(".ui.info.message", "Change window size, and it reflows!"),
-		    h(".ui.form", h(".field", h("textarea", ctx.state.mainText))),
-		    h(".ui.hidden.divider"),
-		    h(".ui.two.column.grid", [
-		      h(".row", [
-			h(".column", Pages.render(ctx, "tb-rl")),
-			h(".column", Pages.render(ctx, "lr-tb"))
-		      ])
-		    ])
-		  ])
+		  this.renderMain(ctx)
 		])
 	      ]);
 	    } catch(e){
@@ -31140,7 +31154,8 @@
 
 	module.exports = (function(){
 	  var __get_page_width = function(){
-	    return Math.floor(Config.pageCol * window.innerWidth / 16) - 30;
+	    var page_col = (screen.width > 600)? Config.pageCol : Config.pageCol * 2;
+	    return Math.floor(page_col * window.innerWidth / 16) - 30;
 	  };
 
 	  return {
